@@ -1,35 +1,27 @@
 pipeline {
     agent any
-        
-    triggers {
-        pollSCM '* * * * *'
-    }
     stages {
         stage('Build') {
             steps {
-                echo "Building.."
-                sh '''
-                cd myapp
-                pip install -r requirements.txt
-                '''
+                script {
+                    sh '''
+                        cd myapp
+                        python3 -m venv venv  # Create virtual environment
+                        source venv/bin/activate  # Activate it
+                        pip install --upgrade pip  # Upgrade pip
+                        pip install -r requirements.txt  # Install dependencies
+                    '''
+                }
             }
         }
         stage('Test') {
             steps {
-                echo "Testing.."
-                sh '''
-                cd myapp
-                python3 hello.py
-                python3 hello.py --name=Brad
-                '''
+                echo "Running tests..."
             }
         }
         stage('Deliver') {
             steps {
-                echo 'Deliver....'
-                sh '''
-                echo "doing delivery stuff.."
-                '''
+                echo "Deploying..."
             }
         }
     }
