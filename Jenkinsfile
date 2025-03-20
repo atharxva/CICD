@@ -5,7 +5,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        apt install python3.11-venv
+                        sudo apt-get install python3.11-venv
                         cd myapp
                         python3 -m venv venv  # Create virtual environment
                         source venv/bin/activate  # Activate it
